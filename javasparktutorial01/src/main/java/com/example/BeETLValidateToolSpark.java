@@ -1,13 +1,13 @@
-package com.example.javasparktutorial01;
+package com.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Javasparktutorial01Application {
+public class BeETLValidateToolSpark {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Javasparktutorial01Application.class, args);
+		SpringApplication.run(BeETLValidateToolSpark.class, args);
+//		System.out.println("hihgidsa");
 	}
-
 }

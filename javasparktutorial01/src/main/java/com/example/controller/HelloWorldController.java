@@ -1,5 +1,6 @@
-package com.example.javasparktutorial01;
+package com.example.controller;
 
+import com.example.sparkJobs.SparkJob;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,7 +12,7 @@ public class HelloWorldController {
         this.sparkJob = sparkJob;
     }
 
-    @GetMapping("/hello")
+    @GetMapping("/hello1")
     public String helloWorld() {
         try {
             sparkJob.runSparkJob();

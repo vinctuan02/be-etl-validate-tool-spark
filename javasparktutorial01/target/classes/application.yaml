@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: be
+  datasource:
+    url: "jdbc:mysql://localhost:3306/etl_validate_tool_spark"
+    username: vinc02
+    password: 12345
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
