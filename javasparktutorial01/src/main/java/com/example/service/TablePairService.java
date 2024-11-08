@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.dto.request.TablePairCreationRequest;
+import com.example.entity.Report;
 import com.example.entity.TablePair;
 import com.example.exception.AppException;
 import com.example.exception.ErrorCode;
@@ -16,17 +17,31 @@ public class TablePairService {
     @Autowired
     private TablePairRepository tablePairRepository;
 
+    @Autowired
+    private ReportService reportService;
+
     public TablePair createTablePair(TablePairCreationRequest request){
 
-        if(tablePairRepository.existsById(request.getPairId()))
-            throw new AppException(ErrorCode.RECORD_EXISTED);
+//        if(tablePairRepository.existsById(request.getPairId()))
+//            throw new AppException(ErrorCode.RECORD_EXISTED);
+        Report report = reportService.getReportById(request.getReportId());
+
+//        System.out.println(report);
 
         TablePair tablePair = new TablePair();
         tablePair.setSourceJDBCId(request.getSourceJDBCId());
         tablePair.setSinkJDBCId(request.getSinkJDBCId());
         tablePair.setSourceTableName(request.getSourceTableName());
         tablePair.setSinkTableNames(request.getSinkTableNames());
-        tablePair.setReportId(request.getReportId());
+//        tablePair.setReportId(request.getReportId());
+        tablePair.setReport(report);
+
+//        System.out.println(tablePair.getPairId());
+//        System.out.println(tablePair.getSourceJDBCId());
+//        System.out.println(tablePair.getSinkJDBCId());
+//        System.out.println(tablePair.getSourceTableName());
+//        System.out.println(tablePair.getSinkTableNames());
+//        System.out.println(tablePair.getReport());
 
         return tablePairRepository.save(tablePair);
     }
@@ -45,7 +60,7 @@ public class TablePairService {
 
             TablePair tablePair = new TablePair();
 
-            tablePair.setReportId(request.getReportId());
+//            tablePair.setReportId(request.getReportId());
             tablePair.setSourceJDBCId(request.getSourceJDBCId());
             tablePair.setSinkJDBCId(request.getSinkJDBCId());
             tablePair.setSourceTableName(request.getSourceTableName());

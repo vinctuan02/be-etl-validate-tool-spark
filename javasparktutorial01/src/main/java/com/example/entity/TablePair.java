@@ -1,5 +1,7 @@
 package com.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,8 +12,8 @@ public class TablePair {
     @Column(name= "pair_id", nullable = false)
     private Integer pairId;
 
-    @Column(name= "report_id", nullable = false)
-    private Integer reportId;
+//    @Column(name= "report_id", nullable = false)
+//    private Integer reportId;
 
     @Column(name= "source_table_name", nullable = false)
     private String sourceTableName;
@@ -25,17 +27,30 @@ public class TablePair {
     @Column(name= "sink_jdbc_id", nullable = false)
     private String sinkJDBCId;
 
+    @ManyToOne
+    @JoinColumn(name = "report_id", nullable = false)
+    @JsonBackReference
+    private Report report;
+
     public Integer getPairId() {
         return pairId;
     }
 
-    public Integer getReportId() {
-        return reportId;
+    public Report getReport() {
+        return report;
     }
 
-    public void setReportId(Integer reportId) {
-        this.reportId = reportId;
+    public void setReport(Report report) {
+        this.report = report;
     }
+//
+//    public Integer getReportId() {
+//        return reportId;
+//    }
+//
+//    public void setReportId(Integer reportId) {
+//        this.reportId = reportId;
+//    }
 
     public String getSourceTableName() {
         return sourceTableName;

@@ -17,6 +17,14 @@ public class TablePairController {
 
     @PostMapping("/create-table-pair")
     ApiResponse<TablePair> createTablePair(@RequestBody TablePairCreationRequest request){
+
+        System.out.println(request.getReportId());
+        System.out.println(request.getSourceJDBCId());
+        System.out.println(request.getSinkJDBCId());
+        System.out.println(request.getSourceTableName());
+        System.out.println(request.getSinkTableNames());
+//        System.out.println(request.getReport());
+
         ApiResponse<TablePair> apiResponse = new ApiResponse<>();
         apiResponse.setResult(tablePairService.createTablePair(request));
         apiResponse.setMessage("Created Table Pair Success");

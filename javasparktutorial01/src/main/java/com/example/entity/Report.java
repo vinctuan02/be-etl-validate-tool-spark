@@ -3,6 +3,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -33,8 +34,29 @@ public class Report {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-//    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<TablePair> tablePairs;
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<TablePair> tablePairs;
+
+    public List<TablePair> getTablePairs() {
+        return tablePairs;
+    }
+
+    public void setTablePairs(List<TablePair> tablePairs) {
+        this.tablePairs = tablePairs;
+    }
+
+    // Phương thức để thêm một TablePair vào Report
+    public void addTablePair(TablePair tablePair) {
+        tablePairs.add(tablePair);
+        tablePair.setReport(this); // Gán Report hiện tại cho TablePair
+    }
+
+    // Phương thức để xóa một TablePair khỏi Report
+    public void removeTablePair(TablePair tablePair) {
+        tablePairs.remove(tablePair);
+        tablePair.setReport(null); // Xóa tham chiếu tới Report khỏi TablePair
+    }
 
     public Integer getReportId() {
         return reportId;

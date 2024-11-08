@@ -26,7 +26,14 @@ public class ReportController {
 
     @PostMapping("/create-report")
     Report createReport(@RequestBody ReportCreationRequest request) {
+
         return reportService.createReport(request);
     }
+
+    @GetMapping("/get-report/{id}")
+    Report getReportById(@PathVariable Integer id) {
+        return reportService.getReportById(id);
+    }
+
 
 }
