@@ -3,12 +3,14 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "report")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "reportId")
 public class Report {
 
     @Id
@@ -18,7 +20,6 @@ public class Report {
 
     @Column(name = "report_name", nullable = false)
     private String reportName;
-
 
     @Column(name = "status",nullable = false)
     private String status;
@@ -35,7 +36,6 @@ public class Report {
     private Timestamp updatedAt;
 
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
     private List<TablePair> tablePairs;
 
     public List<TablePair> getTablePairs() {
@@ -56,6 +56,10 @@ public class Report {
     public void removeTablePair(TablePair tablePair) {
         tablePairs.remove(tablePair);
         tablePair.setReport(null); // Xóa tham chiếu tới Report khỏi TablePair
+    }
+
+    public void setReportId(Integer reportId) {
+        this.reportId = reportId;
     }
 
     public Integer getReportId() {

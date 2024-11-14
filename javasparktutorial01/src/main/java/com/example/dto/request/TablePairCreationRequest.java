@@ -1,5 +1,6 @@
 package com.example.dto.request;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 
 public class TablePairCreationRequest {
@@ -10,16 +11,20 @@ public class TablePairCreationRequest {
     private Integer reportId;
 
     @NotBlank(message = "INPUT_INVALID")
-    private String sourceJDBCId;
+    private Integer sourceJDBCId;
 
     @NotBlank(message = "INPUT_INVALID")
-    private String sinkJDBCId;
+    private Integer sinkJDBCId;
 
     @NotBlank(message = "INPUT_INVALID")
     private String sourceTableName;
 
     @NotBlank(message = "INPUT_INVALID")
     private String sinkTableNames;
+
+    private String sourceDatabaseName;
+
+    private String sinkDatabaseName;
 
     public Integer getPairId() {
         return pairId;
@@ -37,19 +42,19 @@ public class TablePairCreationRequest {
         this.reportId = reportId;
     }
 
-    public @NotBlank(message = "INPUT_INVALID") String getSourceJDBCId() {
+    public @NotBlank(message = "INPUT_INVALID") Integer getSourceJDBCId() {
         return sourceJDBCId;
     }
 
-    public void setSourceJDBCId(@NotBlank(message = "INPUT_INVALID") String sourceJDBCId) {
+    public void setSourceJDBCId(@NotBlank(message = "INPUT_INVALID") Integer sourceJDBCId) {
         this.sourceJDBCId = sourceJDBCId;
     }
 
-    public @NotBlank(message = "INPUT_INVALID") String getSinkJDBCId() {
+    public @NotBlank(message = "INPUT_INVALID") Integer getSinkJDBCId() {
         return sinkJDBCId;
     }
 
-    public void setSinkJDBCId(@NotBlank(message = "INPUT_INVALID") String sinkJDBCId) {
+    public void setSinkJDBCId(@NotBlank(message = "INPUT_INVALID") Integer sinkJDBCId) {
         this.sinkJDBCId = sinkJDBCId;
     }
 
@@ -67,5 +72,21 @@ public class TablePairCreationRequest {
 
     public void setSinkTableNames(@NotBlank(message = "INPUT_INVALID") String sinkTableNames) {
         this.sinkTableNames = sinkTableNames;
+    }
+
+    public String getSourceDatabaseName() {
+        return sourceDatabaseName;
+    }
+
+    public void setSourceDatabaseName(String sourceDatabaseName) {
+        this.sourceDatabaseName = sourceDatabaseName;
+    }
+
+    public String getSinkDatabaseName() {
+        return sinkDatabaseName;
+    }
+
+    public void setSinkDatabaseName(String sinkDatabaseName) {
+        this.sinkDatabaseName = sinkDatabaseName;
     }
 }

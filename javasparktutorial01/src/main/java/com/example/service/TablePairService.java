@@ -1,6 +1,8 @@
 package com.example.service;
 
 import com.example.dto.request.TablePairCreationRequest;
+import com.example.dto.response.ReportCreationResponse;
+import com.example.entity.JDBCConnection;
 import com.example.entity.Report;
 import com.example.entity.TablePair;
 import com.example.exception.AppException;
@@ -20,28 +22,34 @@ public class TablePairService {
     @Autowired
     private ReportService reportService;
 
+    @Autowired
+    private JDBCConnectionService jdbcConnectionService;
+
     public TablePair createTablePair(TablePairCreationRequest request){
 
 //        if(tablePairRepository.existsById(request.getPairId()))
 //            throw new AppException(ErrorCode.RECORD_EXISTED);
-        Report report = reportService.getReportById(request.getReportId());
+        ReportCreationResponse reportCreationResponse = reportService.getReportById(request.getReportId());
 
-//        System.out.println(report);
+        Report report = new Report();
+        report.setReportId(reportCreationResponse.getReportId());
+        report.setReportName(reportCreationResponse.getReportName());
+        report.setStatus(reportCreationResponse.getStatus());
+        report.setNote(reportCreationResponse.getNote());
+        report.setTablePairs(reportCreationResponse.getTablePairs());
+
+        JDBCConnection jdbcSourceConnection = jdbcConnectionService.getJDBCConnectionById(request.getSourceJDBCId());
+        JDBCConnection jdbcSinkConnection = jdbcConnectionService.getJDBCConnectionById(request.getSinkJDBCId());
+
 
         TablePair tablePair = new TablePair();
-        tablePair.setSourceJDBCId(request.getSourceJDBCId());
-        tablePair.setSinkJDBCId(request.getSinkJDBCId());
+        tablePair.setSourceJDBCConnection(jdbcSourceConnection);
+        tablePair.setSinkJDBCConnection(jdbcSinkConnection);
         tablePair.setSourceTableName(request.getSourceTableName());
         tablePair.setSinkTableNames(request.getSinkTableNames());
-//        tablePair.setReportId(request.getReportId());
+        tablePair.setSourceDatabaseName(request.getSourceDatabaseName());
+        tablePair.setSinkDatabaseName(request.getSinkDatabaseName());
         tablePair.setReport(report);
-
-//        System.out.println(tablePair.getPairId());
-//        System.out.println(tablePair.getSourceJDBCId());
-//        System.out.println(tablePair.getSinkJDBCId());
-//        System.out.println(tablePair.getSourceTableName());
-//        System.out.println(tablePair.getSinkTableNames());
-//        System.out.println(tablePair.getReport());
 
         return tablePairRepository.save(tablePair);
     }
@@ -60,9 +68,12 @@ public class TablePairService {
 
             TablePair tablePair = new TablePair();
 
+            JDBCConnection jdbcSourceConnection = jdbcConnectionService.getJDBCConnectionById(request.getSourceJDBCId());
+            JDBCConnection jdbcSinkConnection = jdbcConnectionService.getJDBCConnectionById(request.getSinkJDBCId());
+
 //            tablePair.setReportId(request.getReportId());
-            tablePair.setSourceJDBCId(request.getSourceJDBCId());
-            tablePair.setSinkJDBCId(request.getSinkJDBCId());
+            tablePair.setSourceJDBCConnection(jdbcSourceConnection);
+            tablePair.setSinkJDBCConnection(jdbcSinkConnection);
             tablePair.setSourceTableName(request.getSourceTableName());
             tablePair.setSinkTableNames(request.getSinkTableNames());
 

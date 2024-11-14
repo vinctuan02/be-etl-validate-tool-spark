@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import com.example.sparkJobs.SparkJob;
+import com.example.spark.SparkJob;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

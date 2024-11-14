@@ -1,11 +1,13 @@
 package com.example.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="table_pair")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "pairId")
 public class TablePair {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,15 +23,23 @@ public class TablePair {
     @Column(name= "sink_table_name", nullable = false)
     private String sinkTableNames;
 
-    @Column(name= "source_jdbc_id", nullable = false)
-    private String sourceJDBCId;
+    @Column(name = "source_database_name")
+    private String sourceDatabaseName;
 
-    @Column(name= "sink_jdbc_id", nullable = false)
-    private String sinkJDBCId;
+    @Column(name = "sink_database_name")
+    private String sinkDatabaseName;
+
+    @ManyToOne
+    @JoinColumn(name = "source_jdbc_id", nullable = false)
+    private JDBCConnection sourceJDBCConnection;
+
+    // Many TablePairs can refer to one JdbcConnection as their sink
+    @ManyToOne
+    @JoinColumn(name = "sink_jdbc_id", nullable = false)
+    private JDBCConnection sinkJDBCConnection;
 
     @ManyToOne
     @JoinColumn(name = "report_id", nullable = false)
-    @JsonBackReference
     private Report report;
 
     public Integer getPairId() {
@@ -68,19 +78,35 @@ public class TablePair {
         this.sinkTableNames = sinkTableNames;
     }
 
-    public String getSourceJDBCId() {
-        return sourceJDBCId;
+    public String getSourceDatabaseName() {
+        return sourceDatabaseName;
     }
 
-    public void setSourceJDBCId(String sourceJDBCId) {
-        this.sourceJDBCId = sourceJDBCId;
+    public void setSourceDatabaseName(String sourceDatabaseName) {
+        this.sourceDatabaseName = sourceDatabaseName;
     }
 
-    public String getSinkJDBCId() {
-        return sinkJDBCId;
+    public String getSinkDatabaseName() {
+        return sinkDatabaseName;
     }
 
-    public void setSinkJDBCId(String sinkJDBCId) {
-        this.sinkJDBCId = sinkJDBCId;
+    public void setSinkDatabaseName(String sinkDatabaseName) {
+        this.sinkDatabaseName = sinkDatabaseName;
+    }
+
+    public JDBCConnection getSourceJDBCConnection() {
+        return sourceJDBCConnection;
+    }
+
+    public void setSourceJDBCConnection(JDBCConnection sourceJDBCConnection) {
+        this.sourceJDBCConnection = sourceJDBCConnection;
+    }
+
+    public JDBCConnection getSinkJDBCConnection() {
+        return sinkJDBCConnection;
+    }
+
+    public void setSinkJDBCConnection(JDBCConnection sinkJDBCConnection) {
+        this.sinkJDBCConnection = sinkJDBCConnection;
     }
 }

@@ -6,7 +6,6 @@ import com.example.entity.TablePair;
 import com.example.service.TablePairService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -18,13 +17,6 @@ public class TablePairController {
     @PostMapping("/create-table-pair")
     ApiResponse<TablePair> createTablePair(@RequestBody TablePairCreationRequest request){
 
-        System.out.println(request.getReportId());
-        System.out.println(request.getSourceJDBCId());
-        System.out.println(request.getSinkJDBCId());
-        System.out.println(request.getSourceTableName());
-        System.out.println(request.getSinkTableNames());
-//        System.out.println(request.getReport());
-
         ApiResponse<TablePair> apiResponse = new ApiResponse<>();
         apiResponse.setResult(tablePairService.createTablePair(request));
         apiResponse.setMessage("Created Table Pair Success");
@@ -35,6 +27,7 @@ public class TablePairController {
     ApiResponse<TablePair> getTablePair(@PathVariable Integer id){
         ApiResponse<TablePair> apiResponse = new ApiResponse<>();
         apiResponse.setResult(tablePairService.getTablePairById(id));
+
         apiResponse.setMessage("GET Table Pair Success");
         return apiResponse;
     }
@@ -54,5 +47,4 @@ public class TablePairController {
         apiResponse.setMessage("Update Table Pair Success");
         return apiResponse;
     }
-
 }

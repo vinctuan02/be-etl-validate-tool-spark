@@ -1,10 +1,14 @@
 package com.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name="jdbc_connection")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "jdbcId")
 public class JDBCConnection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,14 +30,28 @@ public class JDBCConnection {
     @Column(name = "database_type", nullable = false)
      private String databaseType;
 
-//    // Quan hệ với TablePair
-//    @OneToMany(mappedBy = "sourceJDBCConnection")
+    // Quan hệ với TablePair
+//    @OneToMany(mappedBy = "sourceJDBCConnection", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<TablePair> sourceTablePairs;
-//
-//    @OneToMany(mappedBy = "sinkJDBCConnection")
+
+//    @OneToMany(mappedBy = "sinkJDBCConnection", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<TablePair> sinkTablePairs;
 
-
+//    public List<TablePair> getSourceTablePairs() {
+//        return sourceTablePairs;
+//    }
+//
+//    public void setSourceTablePairs(List<TablePair> sourceTablePairs) {
+//        this.sourceTablePairs = sourceTablePairs;
+//    }
+//
+//    public List<TablePair> getSinkTablePairs() {
+//        return sinkTablePairs;
+//    }
+//
+//    public void setSinkTablePairs(List<TablePair> sinkTablePairs) {
+//        this.sinkTablePairs = sinkTablePairs;
+//    }
 
     public Integer getJdbcId() {
         return jdbcId;

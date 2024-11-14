@@ -1,7 +1,5 @@
 package com.example.dto.request;
 
-import java.sql.Timestamp;
-
 public class ReportCreationRequest {
     private String reportName;
     private String status;

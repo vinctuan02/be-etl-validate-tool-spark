@@ -16,7 +16,7 @@ public class JDBCConnectionController {
     private JDBCConnectionService jdbcConnectionService;
 
     @PostMapping("/create-jdbc_connection")
-    ApiResponse<JDBCConnection> createJDBCConnection(@RequestBody @Valid JDBCConnectionCreationRequest request){
+    ApiResponse<JDBCConnection> createJDBCConnection(@RequestBody JDBCConnectionCreationRequest request){
         ApiResponse<JDBCConnection> apiResponse = new ApiResponse<>();
         apiResponse.setResult(jdbcConnectionService.createJDBCConnection(request));
 
