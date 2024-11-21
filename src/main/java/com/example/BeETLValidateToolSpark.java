@@ -12,5 +12,7 @@ public class BeETLValidateToolSpark {
 //		System.out.println("hihgidsa");
 //		SparkJob sparkJob = new SparkJob();
 //		sparkJob.runSparkJob();
+
+
 	}
 }

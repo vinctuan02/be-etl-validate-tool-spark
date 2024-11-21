@@ -9,6 +9,7 @@ RUN mvn dependency:go-offline
 # Copy the source code and build the application
 COPY src ./src
 RUN mvn clean package -DskipTests
+
 # Second stage: Create a smaller runtime image with JDK
 FROM openjdk:17-alpine
 WORKDIR /app
@@ -21,7 +22,10 @@ ENV JDK_JAVA_OPTIONS="--add-opens=java.base/java.nio=ALL-UNNAMED \
                       -Dio.netty.tryReflectionSetAccessible=true"
 
 # Copy the JAR file built in the first stage
-COPY --from=build /app/target/javasparktutorial01-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY --from=build /app/target/BeETLValidateTool-0.0.1-SNAPSHOT.jar /app/app.jar
+
+# Expose the port on which the app runs
+EXPOSE 8080
 
 # Run the application
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
