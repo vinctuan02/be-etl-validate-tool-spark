@@ -1,9 +1,11 @@
 package com.example.dto.response;
 
 import com.example.entity.TablePair;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JDBCConnectionCreationResponse {
     private Integer jdbcId;
 

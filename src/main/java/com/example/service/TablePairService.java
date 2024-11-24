@@ -47,7 +47,6 @@ public class TablePairService {
         JDBCConnection jdbcSourceConnection = jdbcConnectionRepository.findById(request.getSourceJDBCId()).orElseThrow(() -> new RuntimeException("JDBCConnection not found"));
         JDBCConnection jdbcSinkConnection = jdbcConnectionRepository.findById(request.getSinkJDBCId()).orElseThrow(() -> new RuntimeException("JDBCConnection not found"));
 
-
         TablePair tablePair = new TablePair();
         tablePair.setSourceJDBCConnection(jdbcSourceConnection);
         tablePair.setSinkJDBCConnection(jdbcSinkConnection);

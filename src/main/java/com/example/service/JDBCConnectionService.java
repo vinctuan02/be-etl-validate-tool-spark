@@ -45,9 +45,10 @@ public class JDBCConnectionService {
         List<JDBCConnectionCreationResponse> jdbcConnectionCreationResponses = new ArrayList<>();
 
         List<JDBCConnection> jdbcConnections = jdbcConnectionRepository.findAll();
-        JDBCConnectionCreationResponse jdbcConnectionCreationResponse = new JDBCConnectionCreationResponse();
 
         for (JDBCConnection jdbcConnection: jdbcConnections) {
+            JDBCConnectionCreationResponse jdbcConnectionCreationResponse = new JDBCConnectionCreationResponse();
+
             jdbcConnectionCreationResponse.setJdbcId(jdbcConnection.getJdbcId());
             jdbcConnectionCreationResponse.setJdbcName(jdbcConnection.getJdbcName());
             jdbcConnectionCreationResponse.setJdbcUser(jdbcConnection.getJdbcUser());
