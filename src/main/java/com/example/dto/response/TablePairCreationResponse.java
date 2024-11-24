@@ -3,11 +3,8 @@ package com.example.dto.response;
 
 import com.example.entity.JDBCConnection;
 import com.example.entity.Report;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import javax.persistence.*;
-
-public class TablePairResponse {
+public class TablePairCreationResponse {
     private Integer pairId;
 
     private Report report;

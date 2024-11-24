@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.dto.request.JDBCActionsCreationRequest;
+import com.example.dto.response.JDBCConnectionCreationResponse;
 import com.example.entity.JDBCConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class JDBCActionsService {
     private JDBCConnectionService jdbcConnectionService;
 
     public Boolean testConnectionById (int id) {
-        JDBCConnection jdbcConnection = jdbcConnectionService.getJDBCConnectionById(id);
+        JDBCConnectionCreationResponse jdbcConnection = jdbcConnectionService.getJDBCConnectionById(id);
 
         String jdbcUrl = jdbcConnection.getJdbcUrl();
         String jdbcUser = jdbcConnection.getJdbcUser();

@@ -14,7 +14,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Table(name = "report")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "reportId")
 public class Report {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "report_id")

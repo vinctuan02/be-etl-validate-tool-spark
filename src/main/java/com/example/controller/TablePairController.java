@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.dto.request.TablePairCreationRequest;
 import com.example.dto.response.ApiResponse;
+import com.example.dto.response.TablePairCreationResponse;
 import com.example.entity.TablePair;
 import com.example.service.TablePairService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,9 @@ public class TablePairController {
     private TablePairService tablePairService;
 
     @PostMapping("/create-table-pair")
-    ApiResponse<TablePair> createTablePair(@RequestBody TablePairCreationRequest request){
+    ApiResponse<TablePairCreationResponse> createTablePair(@RequestBody TablePairCreationRequest request){
 
-        ApiResponse<TablePair> apiResponse = new ApiResponse<>();
+        ApiResponse<TablePairCreationResponse> apiResponse = new ApiResponse<>();
         apiResponse.setResult(tablePairService.createTablePair(request));
         apiResponse.setMessage("Created Table Pair Success");
         return apiResponse;

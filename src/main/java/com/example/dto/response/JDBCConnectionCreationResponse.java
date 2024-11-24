@@ -1,12 +1,10 @@
 package com.example.dto.response;
 
 import com.example.entity.TablePair;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import javax.persistence.*;
 import java.util.List;
 
-public class JDBCConnectionResponse {
+public class JDBCConnectionCreationResponse {
     private Integer jdbcId;
 
     private String jdbcName;

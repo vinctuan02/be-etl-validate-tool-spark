@@ -17,17 +17,6 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
-//    @PostMapping("/create-report")
-//    Report createReport(@RequestBody ReportCreateRequest request) {
-//        return reportService.createReport(request);
-//    }
-
-    @GetMapping("/test")
-    String test() {
-        System.out.println("Hello");
-        return "Test";
-    }
-
     @PostMapping("/create-report")
     ApiResponse<ReportCreationResponse> createReport(@RequestBody ReportCreationRequest request) {
         ApiResponse<ReportCreationResponse> apiResponse = new ApiResponse<>();
