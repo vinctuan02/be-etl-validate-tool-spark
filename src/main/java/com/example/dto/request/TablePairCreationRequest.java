@@ -24,7 +24,7 @@ public class TablePairCreationRequest {
     private String sourceTableName;
 
     @NotBlank(message = "INPUT_INVALID")
-    private String sinkTableNames;
+    private String sinkTableName;
 
     private String sourceDatabaseName;
 

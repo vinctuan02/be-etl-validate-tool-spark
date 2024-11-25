@@ -8,7 +8,10 @@ import com.example.entity.Report;
 import com.example.entity.TablePair;
 import com.example.exception.AppException;
 import com.example.exception.ErrorCode;
+import com.example.mapper.ReportMapper;
+import com.example.mapper.TablePairMapper;
 import com.example.repository.JDBCConnectionRepository;
+import com.example.repository.ReportRepository;
 import com.example.repository.TablePairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,56 +21,34 @@ import java.util.List;
 
 @Service
 public class TablePairService {
-
     @Autowired
-    private TablePairRepository tablePairRepository;
+    private ReportMapper reportMapper;
+    @Autowired
+    private ReportRepository reportRepository;
 
     @Autowired
     private JDBCConnectionRepository jdbcConnectionRepository;
 
     @Autowired
-    private ReportService reportService;
-
+    private TablePairRepository tablePairRepository;
     @Autowired
-    private JDBCConnectionService jdbcConnectionService;
+    private TablePairMapper tablePairMapper;
 
     public TablePairCreationResponse createTablePair(TablePairCreationRequest request)  {
+        Report report = reportRepository.findById(request.getReportId())
+                .orElseThrow(()-> new AppException(ErrorCode.RECORD_NOT_FOUND));
 
-//        if(tablePairRepository.existsById(request.getPairId()))
-//            throw new AppException(ErrorCode.RECORD_EXISTED);
-        ReportCreationResponse reportCreationResponse = reportService.getReportById(request.getReportId());
+        JDBCConnection jdbcSourceConnection = jdbcConnectionRepository.findById(request.getSourceJDBCId())
+                .orElseThrow(()-> new AppException(ErrorCode.RECORD_NOT_FOUND));
+        JDBCConnection jdbcSinkConnection = jdbcConnectionRepository.findById(request.getSinkJDBCId())
+                .orElseThrow(()-> new AppException(ErrorCode.RECORD_NOT_FOUND));
 
-        Report report = new Report();
-        report.setReportId(reportCreationResponse.getReportId());
-        report.setReportName(reportCreationResponse.getReportName());
-        report.setStatus(reportCreationResponse.getStatus());
-        report.setNote(reportCreationResponse.getNote());
-//        report.setTablePairs(reportCreationResponse.getTablePairs());
-
-        JDBCConnection jdbcSourceConnection = jdbcConnectionRepository.findById(request.getSourceJDBCId()).orElseThrow(() -> new RuntimeException("JDBCConnection not found"));
-        JDBCConnection jdbcSinkConnection = jdbcConnectionRepository.findById(request.getSinkJDBCId()).orElseThrow(() -> new RuntimeException("JDBCConnection not found"));
-
-        TablePair tablePair = new TablePair();
+        TablePair tablePair = tablePairMapper.toTablePair(request);
         tablePair.setSourceJDBCConnection(jdbcSourceConnection);
         tablePair.setSinkJDBCConnection(jdbcSinkConnection);
-        tablePair.setSourceTableName(request.getSourceTableName());
-        tablePair.setSinkTableName(request.getSinkTableNames());
-        tablePair.setSourceDatabaseName(request.getSourceDatabaseName());
-        tablePair.setSinkDatabaseName(request.getSinkDatabaseName());
         tablePair.setReport(report);
 
-        TablePairCreationResponse tablePairCreationResponse = new TablePairCreationResponse();
-        tablePairCreationResponse.setSourceJDBCConnection(jdbcSourceConnection);
-        tablePairCreationResponse.setSinkJDBCConnection(jdbcSinkConnection);
-        tablePairCreationResponse.setSourceTableName(request.getSourceTableName());
-        tablePairCreationResponse.setSinkTableName(request.getSinkTableNames());
-        tablePairCreationResponse.setSourceDatabaseName(request.getSourceDatabaseName());
-        tablePairCreationResponse.setSinkDatabaseName(request.getSinkDatabaseName());
-        tablePairCreationResponse.setReport(report);
-
-        tablePairRepository.save(tablePair);
-        return tablePairCreationResponse;
-
+        return tablePairMapper.toTablePairCreationResponse(tablePairRepository.save(tablePair));
     }
 
     public TablePairCreationResponse getTablePairById(Integer id){
@@ -111,7 +92,7 @@ public class TablePairService {
             tablePair.setSourceJDBCConnection(jdbcSourceConnection);
             tablePair.setSinkJDBCConnection(jdbcSinkConnection);
             tablePair.setSourceTableName(request.getSourceTableName());
-            tablePair.setSinkTableName(request.getSinkTableNames());
+            tablePair.setSinkTableName(request.getSinkTableName());
 
             return tablePairRepository.save(tablePair);
         }else

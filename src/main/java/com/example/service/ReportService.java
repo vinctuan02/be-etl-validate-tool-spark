@@ -55,14 +55,7 @@ public class ReportService {
         List<Report> reports = reportRepository.findAll();
 
         for(Report report: reports){
-            ReportCreationResponse reportCreationResponse = new ReportCreationResponse();
-
-            reportCreationResponse.setReportId(report.getReportId());
-            reportCreationResponse.setReportName(report.getReportName());
-            reportCreationResponse.setStatus(report.getStatus());
-            reportCreationResponse.setNote(report.getNote());
-            reportCreationResponse.setTablePairs(report.getTablePairs());
-
+            ReportCreationResponse reportCreationResponse = reportMapper.toReportCreationResponse(report);
             reportCreationResponses.add(reportCreationResponse);
         }
 
@@ -70,20 +63,12 @@ public class ReportService {
     }
 
     public ReportCreationResponse deleteReportById (Integer id){
-        ReportCreationResponse reportCreationResponse = new ReportCreationResponse();
-
         Report report =  reportRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("ErrorCode.RECORD_NOT_FOUND"));
 
-        reportCreationResponse.setReportId(report.getReportId());
-        reportCreationResponse.setReportName(report.getReportName());
-        reportCreationResponse.setStatus(report.getStatus());
-        reportCreationResponse.setNote(report.getNote());
-        reportCreationResponse.setTablePairs(report.getTablePairs());
-
         reportRepository.deleteById(id);
 
-        return reportCreationResponse;
+        return reportMapper.toReportCreationResponse(report);
     }
 
     public List<TablePair> compareReport(Integer id){

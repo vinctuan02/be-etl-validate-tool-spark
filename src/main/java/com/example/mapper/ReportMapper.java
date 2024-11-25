@@ -8,5 +8,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "Spring")
 public interface ReportMapper {
     Report toReport(ReportCreationRequest request);
+    Report toReport(ReportCreationResponse response);
     ReportCreationResponse toReportCreationResponse (Report report);
 }
