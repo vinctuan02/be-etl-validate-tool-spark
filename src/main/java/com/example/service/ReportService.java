@@ -6,6 +6,7 @@ import com.example.entity.Report;
 import com.example.entity.TablePair;
 import com.example.exception.AppException;
 import com.example.exception.ErrorCode;
+import com.example.mapper.ReportMapper;
 import com.example.repository.ReportRepository;
 import com.example.spark.SparkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ReportService {
@@ -20,45 +22,32 @@ public class ReportService {
     private ReportRepository reportRepository;
     @Autowired
     private SparkService sparkService;
+    @Autowired
+    private ReportMapper reportMapper;
 
     public ReportCreationResponse createReport(ReportCreationRequest request){
-        ReportCreationResponse reportCreationResponse = new ReportCreationResponse();
 
-        Report report = new Report();
-        report.setReportName(request.getReportName());
-        if(request.getStatus().equals("NOT_COMPARED")|| request.getStatus().equals("IN_QUEUE") || request.getStatus().equals("IN_PROGRESS") || request.getStatus().equals("COMPLETED")){
-            report.setStatus(request.getStatus());
-        }else{
-            report.setStatus("NOT_COMPARED");
+        Set<String> validStatuses = Set.of("NOT_COMPARED", "IN_QUEUE", "IN_PROGRESS", "COMPLETED");
+
+        // Nếu trạng thái không hợp lệ, đặt lại thành "NOT_COMPARED"
+        if (!validStatuses.contains(request.getStatus())) {
+            request.setStatus("NOT_COMPARED");
         }
-        report.setNote(request.getNote());
 
+        Report report = reportMapper.toReport(request);
         Report savedReport = reportRepository.save(report);
+        //        reportCreationResponse.setTablePairs(savedReport.getTablePairs());
 
-        reportCreationResponse.setReportId(savedReport.getReportId());
-        reportCreationResponse.setReportName(savedReport.getReportName());
-        reportCreationResponse.setStatus(savedReport.getStatus());
-        reportCreationResponse.setNote(savedReport.getNote());
-//        reportCreationResponse.setTablePairs(savedReport.getTablePairs());
-
-        return reportCreationResponse;
+        return reportMapper.toReportCreationResponse(savedReport);
 
     }
 
     public ReportCreationResponse getReportById (Integer id){
 
-        ReportCreationResponse reportCreationResponse = new ReportCreationResponse();
-
         Report report =  reportRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("ErrorCode.RECORD_NOT_FOUND"));
 
-        reportCreationResponse.setReportId(report.getReportId());
-        reportCreationResponse.setReportName(report.getReportName());
-        reportCreationResponse.setStatus(report.getStatus());
-        reportCreationResponse.setNote(report.getNote());
-        reportCreationResponse.setTablePairs(report.getTablePairs());
-
-        return reportCreationResponse;
+        return reportMapper.toReportCreationResponse(report);
     }
 
     public List<ReportCreationResponse> getAllReports (){

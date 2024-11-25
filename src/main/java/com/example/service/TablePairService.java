@@ -70,9 +70,23 @@ public class TablePairService {
 
     }
 
-    public TablePair getTablePairById(Integer id){
-        return tablePairRepository.findById(id).
-                orElseThrow(()-> new AppException(ErrorCode.RECORD_NOT_FOUND));
+    public TablePairCreationResponse getTablePairById(Integer id){
+
+        TablePairCreationResponse tablePairCreationResponse = new TablePairCreationResponse();
+
+        TablePair tablePair = tablePairRepository.findById(id).orElseThrow(()-> new AppException(ErrorCode.RECORD_NOT_FOUND));
+
+        tablePairCreationResponse.setPairId(tablePair.getPairId());
+        tablePairCreationResponse.setReport(tablePair.getReport());
+        tablePairCreationResponse.setSourceJDBCConnection(tablePair.getSourceJDBCConnection());
+        tablePairCreationResponse.setSourceDatabaseName(tablePair.getSourceDatabaseName());
+        tablePairCreationResponse.setSourceTableName(tablePair.getSourceTableName());
+        tablePairCreationResponse.setSinkDatabaseName(tablePair.getSinkDatabaseName());
+        tablePairCreationResponse.setSinkTableName(tablePair.getSinkTableName());
+        tablePairCreationResponse.setSinkJDBCConnection(tablePair.getSinkJDBCConnection());
+
+        return tablePairCreationResponse;
+
     }
 
     public List<TablePair> getTablePairsByReportId(Integer reportId) {

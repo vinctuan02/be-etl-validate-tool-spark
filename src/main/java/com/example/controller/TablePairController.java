@@ -25,8 +25,8 @@ public class TablePairController {
     }
 
     @GetMapping("/get-table-pair/{id}")
-    ApiResponse<TablePair> getTablePair(@PathVariable Integer id){
-        ApiResponse<TablePair> apiResponse = new ApiResponse<>();
+    ApiResponse<TablePairCreationResponse> getTablePair(@PathVariable Integer id){
+        ApiResponse<TablePairCreationResponse> apiResponse = new ApiResponse<>();
         apiResponse.setResult(tablePairService.getTablePairById(id));
 
         apiResponse.setMessage("GET Table Pair Success");
