@@ -25,7 +25,6 @@ public class JDBCActionsService {
         String jdbcPassword = jdbcConnection.getJdbcPassword();
 
         return checkConnection(jdbcUrl, jdbcUser, jdbcPassword);
-
     }
 
     public Boolean testConnectionByReqBody (JDBCActionsCreationRequest request){
@@ -100,7 +99,6 @@ public class JDBCActionsService {
             System.out.println("Lỗi khi lấy danh sách bảng: " + e.getMessage());
         }
         return tables;
-
     }
 
 }

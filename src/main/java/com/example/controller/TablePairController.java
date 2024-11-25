@@ -34,8 +34,8 @@ public class TablePairController {
     }
 
     @GetMapping("/get-table-pairs-by-report_id/{reportId}")
-    ApiResponse<List<TablePair>> getTablePairsByReportId(@PathVariable Integer reportId){
-        ApiResponse<List<TablePair>> apiResponse = new ApiResponse<>();
+    ApiResponse<List<TablePairCreationResponse>> getTablePairsByReportId(@PathVariable Integer reportId){
+        ApiResponse<List<TablePairCreationResponse>> apiResponse = new ApiResponse<>();
         apiResponse.setResult(tablePairService.getTablePairsByReportId(reportId));
 
         apiResponse.setMessage("GET Table Pair Success");
@@ -43,16 +43,16 @@ public class TablePairController {
     }
 
     @GetMapping("/get-all-table-pair")
-    ApiResponse<List<TablePair>> getAllTablePair(){
-        ApiResponse<List<TablePair>> apiResponse = new ApiResponse<>();
+    ApiResponse<List<TablePairCreationResponse>> getAllTablePair(){
+        ApiResponse<List<TablePairCreationResponse>> apiResponse = new ApiResponse<>();
         apiResponse.setResult(tablePairService.getAllTablePair());
         apiResponse.setMessage("GET All Table Pair Success");
         return apiResponse;
     }
 
     @PutMapping ("/update-table-pair/{id}")
-    ApiResponse<TablePair> updateTablePair(@PathVariable Integer id ,@RequestBody TablePairCreationRequest request){
-        ApiResponse<TablePair> apiResponse = new ApiResponse<>();
+    ApiResponse<TablePairCreationResponse> updateTablePair(@PathVariable Integer id ,@RequestBody TablePairCreationRequest request){
+        ApiResponse<TablePairCreationResponse> apiResponse = new ApiResponse<>();
         apiResponse.setResult(tablePairService.updateTablePair(id, request));
         apiResponse.setMessage("Update Table Pair Success");
         return apiResponse;

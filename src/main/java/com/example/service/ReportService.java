@@ -39,7 +39,6 @@ public class ReportService {
         //        reportCreationResponse.setTablePairs(savedReport.getTablePairs());
 
         return reportMapper.toReportCreationResponse(savedReport);
-
     }
 
     public ReportCreationResponse getReportById (Integer id){

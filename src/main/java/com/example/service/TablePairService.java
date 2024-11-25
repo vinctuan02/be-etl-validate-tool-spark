@@ -52,35 +52,35 @@ public class TablePairService {
     }
 
     public TablePairCreationResponse getTablePairById(Integer id){
-
         TablePairCreationResponse tablePairCreationResponse = new TablePairCreationResponse();
 
         TablePair tablePair = tablePairRepository.findById(id).orElseThrow(()-> new AppException(ErrorCode.RECORD_NOT_FOUND));
 
-        tablePairCreationResponse.setPairId(tablePair.getPairId());
-        tablePairCreationResponse.setReport(tablePair.getReport());
-        tablePairCreationResponse.setSourceJDBCConnection(tablePair.getSourceJDBCConnection());
-        tablePairCreationResponse.setSourceDatabaseName(tablePair.getSourceDatabaseName());
-        tablePairCreationResponse.setSourceTableName(tablePair.getSourceTableName());
-        tablePairCreationResponse.setSinkDatabaseName(tablePair.getSinkDatabaseName());
-        tablePairCreationResponse.setSinkTableName(tablePair.getSinkTableName());
-        tablePairCreationResponse.setSinkJDBCConnection(tablePair.getSinkJDBCConnection());
-
-        return tablePairCreationResponse;
-
+        return tablePairMapper.toTablePairCreationResponse(tablePair);
     }
 
-    public List<TablePair> getTablePairsByReportId(Integer reportId) {
-        List<TablePair> tablePairs = new ArrayList<>();
-        tablePairs = tablePairRepository.findByReportReportId(reportId);
-        return tablePairs;
+    public List<TablePairCreationResponse> getTablePairsByReportId(Integer reportId) {
+        List<TablePairCreationResponse> tablePairCreationResponses = new ArrayList<>();
+        List<TablePair> tablePairs = tablePairRepository.findByReportReportId(reportId);
+        for(TablePair tablePair: tablePairs){
+            TablePairCreationResponse tablePairCreationResponse = tablePairMapper.toTablePairCreationResponse(tablePair);
+            tablePairCreationResponses.add(tablePairCreationResponse);
+        }
+        return tablePairCreationResponses;
     }
 
-    public List<TablePair> getAllTablePair(){
-        return  tablePairRepository.findAll();
+    public List<TablePairCreationResponse> getAllTablePair(){
+        List<TablePair> tablePairs = tablePairRepository.findAll();
+        List<TablePairCreationResponse> tablePairCreationResponses = new ArrayList<>();
+        for (TablePair tablePair: tablePairs){
+            TablePairCreationResponse tablePairCreationResponse = tablePairMapper.toTablePairCreationResponse(tablePair);
+            tablePairCreationResponses.add(tablePairCreationResponse);
+        }
+
+        return tablePairCreationResponses;
     }
 
-    public TablePair updateTablePair(Integer id, TablePairCreationRequest request){
+    public TablePairCreationResponse updateTablePair(Integer id, TablePairCreationRequest request){
         if(tablePairRepository.existsById(id)){
 
             TablePair tablePair = new TablePair();
@@ -94,7 +94,7 @@ public class TablePairService {
             tablePair.setSourceTableName(request.getSourceTableName());
             tablePair.setSinkTableName(request.getSinkTableName());
 
-            return tablePairRepository.save(tablePair);
+            return tablePairMapper.toTablePairCreationResponse(tablePairRepository.save(tablePair));
         }else
             throw new RuntimeException("Table Pair not found");
     }

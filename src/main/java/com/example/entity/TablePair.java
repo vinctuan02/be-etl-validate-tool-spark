@@ -45,7 +45,6 @@ public class TablePair {
     @JsonBackReference
     private JDBCConnection sourceJDBCConnection;
 
-    // Many TablePairs can refer to one JdbcConnection as their sink
     @ManyToOne
     @JoinColumn(name = "sink_jdbc_id", nullable = false)
     @JsonBackReference
