@@ -1,15 +1,16 @@
 package com.example.dto.response;
 
 
-import com.example.entity.JDBCConnection;
 import com.example.entity.Report;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 @Data
 public class TablePairCreationResponse {
     private Integer pairId;
 
-    private Report report;
+    @JsonBackReference
+    private ReportCreationResponse reportCreationResponse;
 
     private String sourceTableName;
 
@@ -19,7 +20,9 @@ public class TablePairCreationResponse {
 
     private String sinkDatabaseName;
 
-    private JDBCConnection sourceJDBCConnection;
+    @JsonBackReference
+    private JDBCConnectionCreationResponse sourceJDBCConnectionCreationResponse;
 
-    private JDBCConnection sinkJDBCConnection;
+    @JsonBackReference
+    private JDBCConnectionCreationResponse sinkJDBCConnectionCreationResponse;
 }

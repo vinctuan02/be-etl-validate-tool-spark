@@ -40,13 +40,13 @@ public class SparkService {
     }
 
     public Dataset<Row> createDataFrame(
-        SparkSession spark,
-        String databaseType,
-        String jdbcUrl,
-        String user,
-        String password,
-        String databaseName,
-        String tableName
+            SparkSession spark,
+            String databaseType,
+            String jdbcUrl,
+            String user,
+            String password,
+            String databaseName,
+            String tableName
     ) {
         Dataset<Row> dataFrame;
 

@@ -9,6 +9,9 @@ import com.example.exception.ErrorCode;
 import com.example.mapper.ReportMapper;
 import com.example.repository.ReportRepository;
 import com.example.spark.SparkService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +45,6 @@ public class ReportService {
     }
 
     public ReportCreationResponse getReportById (Integer id){
-
         Report report =  reportRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("ErrorCode.RECORD_NOT_FOUND"));
 
@@ -73,6 +75,7 @@ public class ReportService {
     public List<TablePair> compareReport(Integer id){
         Report report = reportRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.RECORD_NOT_FOUND));
         List<TablePair> tablePairs = report.getTablePairs();
+
         for (TablePair tablePair: tablePairs) {
             sparkService.compareDataFrame(tablePair);
         }

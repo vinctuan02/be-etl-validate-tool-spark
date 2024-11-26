@@ -67,6 +67,7 @@ public class ReportController {
     @GetMapping("/compare-report/{id}")
     ApiResponse<List<TablePair>> compareReport(@PathVariable Integer id) {
         ApiResponse<List<TablePair>> apiResponse = new ApiResponse<>();
+//        System.out.println("gdgagdsgs");
 
         List<TablePair> result = reportService.compareReport(id);
 

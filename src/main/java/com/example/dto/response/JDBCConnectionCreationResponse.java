@@ -1,6 +1,5 @@
 package com.example.dto.response;
 
-import com.example.entity.TablePair;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
@@ -23,8 +22,8 @@ public class JDBCConnectionCreationResponse {
     private String databaseType;
 
     @JsonManagedReference
-    private List<TablePair> sourceTablePairs;
+    private List<TablePairCreationResponse> sourceTablePairCreationResponse;
 
     @JsonManagedReference
-    private List<TablePair> sinkTablePairs;
+    private List<TablePairCreationResponse> sinkTablePairCreationResponse;
 }
