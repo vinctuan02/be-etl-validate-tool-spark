@@ -6,7 +6,7 @@ import lombok.Data;
 
 import java.util.List;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class ReportCreationResponse {
     private Integer reportId;
@@ -14,6 +14,6 @@ public class ReportCreationResponse {
     private String status;
     private String note;
 
-    @JsonManagedReference
+//    @JsonManagedReference
     private List<TablePairCreationResponse> tablePairCreationResponses;
 }

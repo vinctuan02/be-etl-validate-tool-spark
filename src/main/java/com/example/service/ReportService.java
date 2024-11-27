@@ -9,9 +9,9 @@ import com.example.exception.ErrorCode;
 import com.example.mapper.ReportMapper;
 import com.example.repository.ReportRepository;
 import com.example.spark.SparkService;
+import com.example.udf.Console;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +27,9 @@ public class ReportService {
     private SparkService sparkService;
     @Autowired
     private ReportMapper reportMapper;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     public ReportCreationResponse createReport(ReportCreationRequest request){
 
@@ -47,6 +50,13 @@ public class ReportService {
     public ReportCreationResponse getReportById (Integer id){
         Report report =  reportRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("ErrorCode.RECORD_NOT_FOUND"));
+
+//		try {
+//			String jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(report);
+//			System.out.println(jsonString);
+//		} catch (JsonProcessingException e) {
+//			throw new RuntimeException(e);
+//		}
 
         return reportMapper.toReportCreationResponse(report);
     }
